@@ -14,7 +14,7 @@ layout="wide"
 
 @st.cache()
 def load_data():
-    temp = pd.read_csv('data\data_jobs.csv',sep='$')
+    temp = pd.read_csv('https://raw.githubusercontent.com/mlambolla/aijobs/main/.streamlit/data/data_jobs.csv',sep='$')
     temp['skills'] = temp['skills'].map(lambda x: x.replace("'","").strip('][').split(', '))
     return temp
 

@@ -35,8 +35,8 @@ def get_skills_from_profile(profile):
 #settings
 color_scale = alt.Scale(domain=['Data Scientist','Data Engineer','Machine Learning Engineer','Data Analyst','Others'],range=['#626FFA', '#EF543A','#00CD97','#AA62FA','#FEA15B'])
 
-st.markdown('<div style="color: black;text-align:right;">Last update: ' + df['creation_date'].max() +'</div>',unsafe_allow_html=True)
-st.markdown('<h2 style="color: black;text-align:center;"><u>Demo - data extracted from some ai-jobs site since ' + df['creation_date'].min() +'</h2>',unsafe_allow_html=True)
+st.markdown('<div style="color: blue;text-align:right;">Last update: ' + df['creation_date'].max() +'</div>',unsafe_allow_html=True)
+st.markdown('<h2 style="color: black;text-align:center;">Demo - data extracted from some ai-jobs site since ' + df['creation_date'].min() +'</h2>',unsafe_allow_html=True)
 st.markdown('<h3 style="color: black;text-align:center;">Technology used: <i>Python, Apache Airflow (daily schedule), AWS (S3, Redshift), Selenium, Altair, Plotly, Streamlit</h3>',unsafe_allow_html=True)
 
 title_expander = st.beta_expander("Profiles Treemap", expanded=True)

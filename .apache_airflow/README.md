@@ -3,6 +3,7 @@ The main purpose of this **Apache Airflow** DAG is to scrape data from an ai-job
 
 ## Tech
 - Python
+- Apache Airflow
 - Pandas
 - Selenium
 - AWS (S3 and Redshift)
@@ -15,13 +16,13 @@ The main purpose of this **Apache Airflow** DAG is to scrape data from an ai-job
 
 ### Below step descriptions
 
-> **Scrape**: this task uses selenium library and scrapes an ai-jobs site in order to take all information about jobs descriptions including:
-    > > * Link
-    > > * Title
-    > > * Company
-    > > * Work Type *(Full Time, Part Time, Contractor)*
-    > > * Skills required *(str[] list)*
-    > > * Location
+> **Scrape**: this task uses selenium library and scrapes an ai-jobs site in order to take all information about jobs descriptions including:  
+      > Link  
+      > Title  
+      > Company  
+      > Work Type *(Full Time, Part Time, Contractor)*  
+      > Skills required *(str[] list)*  
+      > Location  
 
 > **File_to_s3**: takes the file recently created (based on previous task) and moves it to Amazon S3 bucket.
 

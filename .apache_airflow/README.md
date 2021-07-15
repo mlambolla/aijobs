@@ -13,7 +13,7 @@ The main purpose of this **Apache Airflow** DAG is to scrape data from an ai-job
 
 ![image info](dag_detail.png)
 
-### Below the steps description
+### Below step descriptions
 
 > **Scrape**: this task uses selenium library and scrapes an ai-jobs site in order to take all information about jobs descriptions including:
     > > * Link
@@ -29,7 +29,7 @@ The main purpose of this **Apache Airflow** DAG is to scrape data from an ai-job
 
 > **Bulk_file**: this tasks uses COPY postresql script in order to BULK csv file to public.bulk_data_jobs table.
 
-> **Insert_new_rows**: here the process inserts ***new*** records found on recent file on public.data_jobs table - creation_date gets CURRENT_DATE.
+> **Insert_new_jobs**: here the process inserts ***new*** records found on recent file on public.data_jobs table - creation_date gets CURRENT_DATE.
 This table has the entire jobs history.
 
 > **Delete_jobs**: finally, this task compares and sets delete_date on those records which were present ***yesterday***, but not present on ***today*** file.

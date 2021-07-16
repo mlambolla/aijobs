@@ -12,6 +12,7 @@ layout="wide"
  )
 ####
 
+
 @st.cache()
 def load_data():
     temp = pd.read_csv('https://raw.githubusercontent.com/mlambolla/aijobs/main/.streamlit/data/data_jobs.csv',sep='$')
@@ -29,6 +30,7 @@ def get_skills_from_profile(profile):
     types_counts=Counter(skills_list)
     df_skills = pd.DataFrame.from_dict(types_counts, orient='index').reset_index()\
         .rename(columns={'index':'skill',0:'count'}).sort_values(by=['count'],ascending=False).reset_index()  
+    
     df_skills['skill'] = df_skills['skill'].map(str) + ' (' + df_skills['count'].map(str) + ')'
     return df_skills[['skill']]
 
@@ -38,6 +40,7 @@ color_scale = alt.Scale(domain=['Data Scientist','Data Engineer','Machine Learni
 st.markdown('<div style="color: blue;text-align:right;">Last update: ' + df['creation_date'].max() +'</div>',unsafe_allow_html=True)
 st.markdown('<h2 style="color: black;text-align:center;">Demo - data extracted from some ai-jobs site since ' + df['creation_date'].min() +'</h2>',unsafe_allow_html=True)
 st.markdown('<h3 style="color: black;text-align:center;">Technology used: <i>Python, Apache Airflow (daily schedule), AWS (S3, Redshift), Selenium, Altair, Plotly, Streamlit</h3>',unsafe_allow_html=True)
+
 
 title_expander = st.beta_expander("Profiles Treemap", expanded=True)
 with title_expander:
@@ -54,6 +57,30 @@ with title_expander:
             df_title_porc = pd.concat([df_title,(round(df_title['count']/df_title['count'].sum(),3)*100).rename('porc')],axis=1)
             st.table(df_title_porc.sort_values('count',ascending=False).assign(hack='').set_index('hack'))
 
+
+daily_charts_expander = st.beta_expander("Daily Activity Chart by Profiles",expanded=True)
+with daily_charts_expander:
+    for title in df['title_normalized'].unique():
+        df_temp = df[df['title_normalized']==title]
+        additions = df_temp.groupby(['title_normalized','creation_date'])['link'].count().rename('additions')\
+            .reset_index().rename(columns={'creation_date':'date'}).set_index('date')
+
+        deletions = df_temp.groupby(['title_normalized','delete_date'])['link'].count().rename('deletions')\
+            .reset_index().rename(columns={'delete_date':'date'}).set_index('date')
+        deletions['deletions'] = deletions['deletions']*-1
+        t = pd.concat([additions['additions'],deletions['deletions']],axis=1).fillna(0).reset_index()\
+            .melt(id_vars=['date'], var_name='type',
+                value_name='count')
+        t = t[t['date']> t['date'].min()]
+        #display(t)
+        daily_chart =alt.Chart(t, title=title).mark_bar(size=20).encode(
+        x=alt.X('date',title=None),
+        y=alt.Y('count',title=None),
+        color=alt.Color('type',title=None),
+        tooltip=['date','type','count']
+        ).properties(height=300,width=600)
+        st.altair_chart(daily_chart)
+    
 skills_expander = st.beta_expander("Skills by Profile", expanded=True)
 with skills_expander:
     cols_profile_container = st.beta_container()

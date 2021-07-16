@@ -28,7 +28,7 @@ The main purpose of this **Apache Airflow** DAG is to scrape data from an ai-job
 
 > **Truncate table**: connects to Amazon Redshift database and truncates the temp raw table.
 
-> **Bulk_file**: this tasks uses COPY postresql script in order to BULK csv file to public.bulk_data_jobs table.
+> **Bulk_file**: this tasks uses COPY postresql script in order to BULK csv file to public.bulk_data_jobs table (from Amazons S3 to Amazon Redshift).
 
 > **Insert_new_jobs**: here the process inserts ***new*** records found on recent file on public.data_jobs table - creation_date gets CURRENT_DATE.
 This table has the entire jobs history.

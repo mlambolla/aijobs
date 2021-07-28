@@ -76,12 +76,18 @@ def scrape_aijobs():
                 link = elem.get_attribute("href")
                 
                 if (link not in all_job_links):
+                    h5_tags = elem.find_elements_by_tag_name('h5')
+                    for htag in h5_tags:
+                        if ('mb-1' in htag.get_attribute("class")):
+                            title = htag.text
+                            
                     p_tags = elem.find_elements_by_tag_name('p')
                     for p in p_tags:
                         if ('job-list-item-company' in p.get_attribute("class")):
                             company = p.text
                         if ('text-primary mb-1' in p.get_attribute("class")):
                             title = p.text
+                            
                     s_tags = elem.find_elements_by_tag_name('span')
                     skills = []
                     for s in s_tags:

@@ -74,11 +74,11 @@ with daily_charts_expander:
         t = t[t['date']> t['date'].min()]
         #display(t)
         daily_chart =alt.Chart(t, title=title).mark_bar(size=20).encode(
-        x=alt.X('date',title=None),
+        x=alt.X('date:T',title=None),
         y=alt.Y('count',title=None),
         color=alt.Color('type',title=None),
-        tooltip=['date','type','count']
-        ).properties(height=300,width=600)
+        tooltip=['date:T','type','count']
+        ).properties(height=300,width=900)
         st.altair_chart(daily_chart)
     
 skills_expander = st.beta_expander("Skills by Profile", expanded=True)
